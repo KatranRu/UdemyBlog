@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="-542.25" y="-127.0">blogtest.Model.User</node>
+    <node x="-262.85808270676694" y="-122.02819548872179">blogtest.Model.Post</node>
+    <node x="24.533834586466185" y="-127.0">blogtest.Model.Comment</node>
+    <node x="-532.75" y="215.03383458646618">blogtest.Model.enums.ERole</node>
+    <node x="-88.5" y="185.0">blogtest.Model.ImageModel</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="blogtest.Model.Post" target="blogtest.Model.User" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="1.0946502057613168" showDependencies="false" x="-165.0" y="81.00000000000003" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
