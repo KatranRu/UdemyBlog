@@ -31,7 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public User loadUserById(Long id) {
-        return  userRepository.findUsersById(id).orElse(null);
+        return  userRepository.findUserById(id).orElse(null);
     }
 
     public static User build(User user) {

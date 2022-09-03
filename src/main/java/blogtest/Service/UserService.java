@@ -27,6 +27,11 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    public User getUserById(Long id) {
+        return userRepository.findUserById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found with userId: " + id));
+    }
+
     public User createUser(SignupRequest userIn) {
         User user = new User();
         user.setEmail(userIn.getEmail());
