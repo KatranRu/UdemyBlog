@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 @Service
 public class CommentService {
@@ -46,7 +45,7 @@ public class CommentService {
         comment.setMessage(commentDTO.getMessage());
 
         LOG.info("Saving comment for post: {}", post.getId());
-        return  commentRepository.save(comment);
+        return commentRepository.save(comment);
     }
 
     public List<Comment> getAllCommentForPost(Long postId) {
@@ -66,13 +65,5 @@ public class CommentService {
         return userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found with username " + username));
     }
-
-
-
-
-
-
-
-
 
 }
