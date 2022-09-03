@@ -1,6 +1,5 @@
 package blogtest.Annotations;
 
-import blogtest.Validations.EmailValidator;
 import blogtest.Validations.PasswordMatchesValidator;
 
 import javax.validation.Constraint;

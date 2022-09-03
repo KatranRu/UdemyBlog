@@ -1,7 +1,6 @@
 package blogtest.DTO;
 
 import lombok.Data;
-import lombok.NonNull;
 
 import javax.validation.constraints.NotEmpty;
 

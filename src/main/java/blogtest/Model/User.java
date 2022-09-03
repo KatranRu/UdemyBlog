@@ -6,7 +6,6 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.annotation.processing.Generated;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;

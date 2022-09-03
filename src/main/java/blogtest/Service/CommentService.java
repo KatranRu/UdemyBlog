@@ -51,7 +51,7 @@ public class CommentService {
     public List<Comment> getAllCommentForPost(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException(""));
-        List<Comment> comments = commentRepository.findAllByPost(post);
+        List<Comment> comments = commentRepository.findAllByPost(post);  //Redundant local variable
         return comments;
     }
 

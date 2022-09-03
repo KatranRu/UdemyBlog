@@ -3,7 +3,7 @@ package blogtest.Controllers;
 import blogtest.Payload.MessageResponse;
 import blogtest.Payload.Request.LoginRequest;
 import blogtest.Payload.Request.SignupRequest;
-import blogtest.Payload.Response.JWTTokenSucceccResponse;
+import blogtest.Payload.Response.JWTTokenSuccessResponse;
 import blogtest.Security.JWTTokenProvider;
 import blogtest.Security.SecurityConstants;
 import blogtest.Service.UserService;
@@ -51,7 +51,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
 
-        return ResponseEntity.ok(new JWTTokenSucceccResponse(true, jwt));
+        return ResponseEntity.ok(new JWTTokenSuccessResponse(true, jwt));
     }
 
 
