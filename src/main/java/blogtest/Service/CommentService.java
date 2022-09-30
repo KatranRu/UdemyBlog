@@ -4,7 +4,7 @@ import blogtest.DTO.CommentDTO;
 import blogtest.Exceptions.PostNotFoundException;
 import blogtest.Model.Comment;
 import blogtest.Model.Post;
-import blogtest.Model.User;
+import blogtest.Model.Users;
 import blogtest.Repository.CommentRepository;
 import blogtest.Repository.PostRepository;
 import blogtest.Repository.UserRepository;
@@ -36,12 +36,12 @@ public class CommentService {
     }
 
     public Comment saveComment(Long postId, CommentDTO commentDTO, Principal principal) {
-        User user = getUserByPrincipal(principal);
+        Users users = getUserByPrincipal(principal);
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new PostNotFoundException("Post cannot be found for username: " + user.getEmail()));
+                .orElseThrow(() -> new PostNotFoundException("Post cannot be found for username: " + users.getEmail()));
         Comment comment = new Comment();
         comment.setPost(post);
-        comment.setUserId(user.getId());
+        comment.setUserId(users.getId());
         comment.setMessage(commentDTO.getMessage());
 
         LOG.info("Saving comment for post: {}", post.getId());
@@ -60,9 +60,9 @@ public class CommentService {
         comment.ifPresent(commentRepository::delete);
     }
 
-    private User getUserByPrincipal(Principal principal) {
+    private Users getUserByPrincipal(Principal principal) {
         String username = principal.getName();
-        return userRepository.findUserByUsername(username)
+        return userRepository.findUsersByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found with username " + username));
     }
 

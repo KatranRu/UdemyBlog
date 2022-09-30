@@ -12,7 +12,7 @@ import java.util.*;
 
 @Data
 @Entity
-public class User implements UserDetails {
+public class Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,10 +37,10 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role",
     joinColumns = @JoinColumn(name = "user_id"))
     private Set<ERole> role = new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users", orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
-    public User() {
+    public Users() {
     }
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
@@ -49,11 +49,11 @@ public class User implements UserDetails {
         this.createdDate = LocalDateTime.now();
     }
 
-    public User(Long id,
-                String username,
-                String email,
-                String password,
-                Collection<? extends GrantedAuthority> authorities) {
+    public Users(Long id,
+                 String username,
+                 String email,
+                 String password,
+                 Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.email = email;

@@ -14,7 +14,7 @@ public class ImageModel {
     @Column(nullable = false)
     private String fileName;
     @Lob
-    @Column(columnDefinition = "LONGBLOB")
+    @Column(columnDefinition = "bytea")
     private byte[] imageBytes;
     @JsonIgnore
     private Long userId;

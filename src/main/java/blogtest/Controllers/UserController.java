@@ -2,7 +2,7 @@ package blogtest.Controllers;
 
 import blogtest.DTO.UserDTO;
 import blogtest.Facade.UserFacade;
-import blogtest.Model.User;
+import blogtest.Model.Users;
 import blogtest.Service.UserService;
 import blogtest.Validations.ResponseErrorValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +29,15 @@ public class UserController {
 
     @GetMapping("/")
     public ResponseEntity<UserDTO> getCurrentUser(Principal principal) {
-        User user = userService.getCurrentUser(principal);
-        UserDTO userDTO = userFacade.userToUserDTO(user);
+        Users users = userService.getCurrentUser(principal);
+        UserDTO userDTO = userFacade.userToUserDTO(users);
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getUserProfile(@PathVariable("userId") String userId) {
-        User user = userService.getUserById(Long.parseLong(userId));
-        UserDTO userDTO = userFacade.userToUserDTO(user);
+        Users users = userService.getUserById(Long.parseLong(userId));
+        UserDTO userDTO = userFacade.userToUserDTO(users);
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
@@ -49,8 +49,8 @@ public class UserController {
         if (!ObjectUtils.isEmpty(errors)) {
             return errors;
         }
-        User user = userService.updateUser(userDTO, principal);
-        UserDTO userUpdated = userFacade.userToUserDTO(user);
+        Users users = userService.updateUser(userDTO, principal);
+        UserDTO userUpdated = userFacade.userToUserDTO(users);
         return new ResponseEntity<>(userUpdated, HttpStatus.OK);
     }
 

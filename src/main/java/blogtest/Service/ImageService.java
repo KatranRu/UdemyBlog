@@ -3,7 +3,7 @@ package blogtest.Service;
 import blogtest.Exceptions.ImageNotFoundException;
 import blogtest.Model.ImageModel;
 import blogtest.Model.Post;
-import blogtest.Model.User;
+import blogtest.Model.Users;
 import blogtest.Repository.ImageRepository;
 import blogtest.Repository.UserRepository;
 import org.slf4j.Logger;
@@ -39,8 +39,8 @@ public class ImageService {
     }
 
     public ImageModel getImageToUser(Principal principal) {
-        User user = getUserByPrincipal(principal);
-        ImageModel imageModel = imageRepository.findByUserId(user.getId()).orElse(null);
+        Users users = getUserByPrincipal(principal);
+        ImageModel imageModel = imageRepository.findByUserId(users.getId()).orElse(null);
         if (!ObjectUtils.isEmpty(imageModel)) {
             imageModel.setImageBytes(decompressBytes(imageModel.getImageBytes()));
         }
@@ -57,23 +57,23 @@ public class ImageService {
     }
 
     public ImageModel uploadImageToUser(MultipartFile file, Principal principal) throws IOException {
-        User user = getUserByPrincipal(principal);
-        LOG.info("Uploading image profile to User {}", user.getUsername());
+        Users users = getUserByPrincipal(principal);
+        LOG.info("Uploading image profile to Users {}", users.getUsername());
 
-        ImageModel userProfileImage = imageRepository.findByUserId(user.getId()).orElse(null);
+        ImageModel userProfileImage = imageRepository.findByUserId(users.getId()).orElse(null);
         if (!ObjectUtils.isEmpty(userProfileImage)) {
             imageRepository.delete(userProfileImage);
         }
         ImageModel imageModel = new ImageModel();
-        imageModel.setUserId(user.getId());
+        imageModel.setUserId(users.getId());
         imageModel.setImageBytes(compressBytes(file.getBytes()));
         imageModel.setFileName(file.getOriginalFilename());
         return imageRepository.save(imageModel);
     }
 
     public ImageModel uploadImageToPost(MultipartFile file, Principal principal, Long postId) throws IOException {
-        User user = getUserByPrincipal(principal);
-        Post post = user.getPosts()
+        Users users = getUserByPrincipal(principal);
+        Post post = users.getPosts()
                 .stream()
                 .filter(p -> p.getId().equals(postId))
                 .collect(toSinglePostCollector());
@@ -127,9 +127,9 @@ public class ImageService {
         return outputStream.toByteArray();
     }
 
-    private User getUserByPrincipal(Principal principal) {
+    private Users getUserByPrincipal(Principal principal) {
         String username = principal.getName();
-        return userRepository.findUserByUsername(username)
+        return userRepository.findUsersByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found with username " + username));
     }
 

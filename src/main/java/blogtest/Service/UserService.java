@@ -2,7 +2,7 @@ package blogtest.Service;
 
 import blogtest.DTO.UserDTO;
 import blogtest.Exceptions.UserExistException;
-import blogtest.Model.User;
+import blogtest.Model.Users;
 import blogtest.Model.enums.ERole;
 import blogtest.Payload.Request.SignupRequest;
 import blogtest.Repository.UserRepository;
@@ -27,45 +27,45 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findUserById(id)
+    public Users getUserById(Long id) {
+        return userRepository.findUsersById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found with userId: " + id));
     }
 
-    public User createUser(SignupRequest userIn) {
-        User user = new User();
-        user.setEmail(userIn.getEmail());
-        user.setName(userIn.getFirstname());
-        user.setLastname(userIn.getLastname());
-        user.setUsername(userIn.getUsername());
-        user.setPassword(passwordEncoder.encode(userIn.getPassword()));
-        user.getRole().add(ERole.ROLE_USER);
+    public Users createUser(SignupRequest userIn) {
+        Users users = new Users();
+        users.setEmail(userIn.getEmail());
+        users.setName(userIn.getFirstname());
+        users.setLastname(userIn.getLastname());
+        users.setUsername(userIn.getUsername());
+        users.setPassword(passwordEncoder.encode(userIn.getPassword()));
+        users.getRole().add(ERole.ROLE_USER);
 
         try {
-            LOG.info("Saving User");
-            return userRepository.save(user);
+            LOG.info("Saving Users");
+            return userRepository.save(users);
         } catch (Exception ex) {
             LOG.error("Error during registration. {}", ex.getMessage());
-            throw new UserExistException("The user " + user.getUsername() + " already. Please check credentials");
+            throw new UserExistException("The users " + users.getUsername() + " already. Please check credentials");
         }
     }
 
-    public User updateUser(UserDTO userDTO, Principal principal) {
-        User user = getUserByPrincipal(principal);
-        user.setName(userDTO.getFirstname());
-        user.setLastname(userDTO.getLastname());
-        user.setBiography(userDTO.getBiography());
+    public Users updateUser(UserDTO userDTO, Principal principal) {
+        Users users = getUserByPrincipal(principal);
+        users.setName(userDTO.getFirstname());
+        users.setLastname(userDTO.getLastname());
+        users.setBiography(userDTO.getBiography());
 
-        return userRepository.save(user);
+        return userRepository.save(users);
     }
 
-    public User getCurrentUser(Principal principal){
+    public Users getCurrentUser(Principal principal){
         return getUserByPrincipal(principal);
     }
 
-    private User getUserByPrincipal(Principal principal){
+    private Users getUserByPrincipal(Principal principal){
         String username = principal.getName();
-        return userRepository.findUserByUsername(username)
+        return userRepository.findUsersByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found with username " + username));
     }
 }

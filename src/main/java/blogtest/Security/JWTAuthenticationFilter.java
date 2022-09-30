@@ -1,6 +1,6 @@
 package blogtest.Security;
 
-import blogtest.Model.User;
+import blogtest.Model.Users;
 import blogtest.Service.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,10 +34,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             String jwt = getJWTFromRequest(request);
             if (StringUtils.hasText(jwt) && jwtTokenProvider.validateToken(jwt)) {
                 Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
-                User userDetails = customUserDetailsService.loadUserById(userId);
+                Users usersDetails = customUserDetailsService.loadUserById(userId);
 
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, Collections.emptyList());
+                        usersDetails, null, Collections.emptyList());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }

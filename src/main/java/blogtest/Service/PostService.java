@@ -4,7 +4,7 @@ import blogtest.DTO.PostDTO;
 import blogtest.Exceptions.PostNotFoundException;
 import blogtest.Model.ImageModel;
 import blogtest.Model.Post;
-import blogtest.Model.User;
+import blogtest.Model.Users;
 import blogtest.Repository.ImageRepository;
 import blogtest.Repository.PostRepository;
 import blogtest.Repository.UserRepository;
@@ -37,15 +37,15 @@ public class PostService {
     }
 
     public Post creatPost(PostDTO postDTO, Principal principal) {
-        User user = getUserByPrincipal(principal);
+        Users users = getUserByPrincipal(principal);
         Post post = new Post();
-        post.setUser(user);
+        post.setUsers(users);
         post.setCaption(postDTO.getCaption());
         post.setLocation(postDTO.getLocation());
         post.setTitle(postDTO.getTitle());
         post.setLikes(0);
 
-        LOG.info("Saving Post for User: {}", user.getEmail());
+        LOG.info("Saving Post for Users: {}", users.getEmail());
         return postRepository.save(post);
     }
 
@@ -54,14 +54,14 @@ public class PostService {
     }
 
     public Post getPostById(Long postId, Principal principal) {
-        User user = getUserByPrincipal(principal);
-        return postRepository.findPostByIdAndUser(postId, user)
-                .orElseThrow(() -> new PostNotFoundException("Post cannot be found for username: " + user.getEmail()));
+        Users users = getUserByPrincipal(principal);
+        return postRepository.findPostByIdAndUsers(postId, users)
+                .orElseThrow(() -> new PostNotFoundException("Post cannot be found for username: " + users.getEmail()));
     }
 
     public List<Post> getAllPostForUser(Principal principal) {
-        User user = getUserByPrincipal(principal);
-        return postRepository.findAllByUserOrderByCreatedDateDesc(user);
+        Users users = getUserByPrincipal(principal);
+        return postRepository.findAllByUsersOrderByCreatedDateDesc(users);
     }
 
     public Post likePost(Long postId, String username) {
@@ -88,9 +88,9 @@ public class PostService {
         imageModel.ifPresent(imageRepository::delete);
     }
 
-    private User getUserByPrincipal(Principal principal) {
+    private Users getUserByPrincipal(Principal principal) {
         String username = principal.getName();
-        return userRepository.findUserByUsername(username)
+        return userRepository.findUsersByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found with username " + username));
     }
 

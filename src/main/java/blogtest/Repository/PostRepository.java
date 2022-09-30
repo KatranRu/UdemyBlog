@@ -1,7 +1,7 @@
 package blogtest.Repository;
 
 import blogtest.Model.Post;
-import blogtest.Model.User;
+import blogtest.Model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,9 +10,9 @@ import java.util.Optional;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    Optional<Post> findPostByIdAndUser(Long id, User user);
+    Optional<Post> findPostByIdAndUsers(Long id, Users users);
 
-    List<Post> findAllByUserOrderByCreatedDateDesc(User user);
+    List<Post> findAllByUsersOrderByCreatedDateDesc(Users users);
 
     List<Post> findAllByOrderByCreatedDateDesc();
 }

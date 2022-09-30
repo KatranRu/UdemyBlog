@@ -1,6 +1,6 @@
 package blogtest.Security;
 
-import blogtest.Model.User;
+import blogtest.Model.Users;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -19,17 +19,17 @@ public class JWTTokenProvider {
     public static final Logger LOG = LoggerFactory.getLogger(JWTTokenProvider.class);
 
     public String generateToken(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
+        Users users = (Users) authentication.getPrincipal();
         Date now = new Date(System.currentTimeMillis());
         Date expiryDate = new Date(now.getTime() + SecurityConstants.EXPIRATION_TIME);
 
-        String userId = Long.toString(user.getId());
+        String userId = Long.toString(users.getId());
 
         Map<String, Object> claimsMap = new HashMap<>();
         claimsMap.put("id", userId);
-        claimsMap.put("username", user.getEmail());
-        claimsMap.put("firstname", user.getName());
-        claimsMap.put("lastname", user.getLastname());
+        claimsMap.put("username", users.getEmail());
+        claimsMap.put("firstname", users.getName());
+        claimsMap.put("lastname", users.getLastname());
 
         return Jwts.builder()
                 .setSubject(userId)
